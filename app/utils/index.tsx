@@ -10,7 +10,7 @@ export async function getPost(id: number): Promise<Post> {
 
 export async function getUser(id: number): Promise<User> {
   const res = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
-    cache: "force-cache",
+    cache: "no-cache",
   });
 
   if (!res.ok) throw new Error("Bad response");
@@ -19,10 +19,10 @@ export async function getUser(id: number): Promise<User> {
 }
 
 export async function getUsers(): Promise<User[]> {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/users`);
+  const res = await fetch(`https://jsonplaceholder.typicode.com/users`,{next:{revalidate:3}});
 
   if (!res.ok) throw new Error("Bad response");
-  const response = res.json();
+  const response = await res.json();
   return response;
 }
 
